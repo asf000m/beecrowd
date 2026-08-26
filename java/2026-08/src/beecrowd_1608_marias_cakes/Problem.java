@@ -10,6 +10,8 @@ public class Problem {
         // Input T indicating the number of test cases.
         int testCases = sc.nextInt();
         sc.nextLine();
+
+        String output = "";
         
         for (int i = 0; i < testCases; i++){
             // Line with D, I and B (cash, ingredientes and cake types);
@@ -30,28 +32,47 @@ public class Problem {
             
             int[] prices = Arrays.stream(pricesInput.split(" ")).mapToInt(Integer::parseInt).toArray();
 
-            // Get the composition of each cake type.
-            // ArrayList<String> cakes = new ArrayList<String>();
-
             int max = 0;
             
             for (int j = 0; j < cakeTypes; j++) {
                 // Get how many different ingredients, ingredient index, and ingredient amount.
                 String cakeComposition = sc.nextLine();
-
+                
                 int different = Integer.valueOf(cakeComposition.charAt(0));
-                int index = Integer.valueOf(cakeComposition.charAt(2));
-                int amount = Integer.valueOf(cakeComposition.charAt(4));
+                
+                int indexIdx = 2;
+                int amountIdx = 4;
+                
+                double cakePrice = 0;
+                double ingredientPrice;
+                
+                for (int k = 0; k < ingredientes; k++) {
+                    // Calculate the price of each ingredient.
+                    int index = Integer.valueOf(cakeComposition.charAt(indexIdx));
+                    int amount = Integer.valueOf(cakeComposition.charAt(amountIdx));
+                    
+                    System.out.println(different + index + amount);
+
+                    ingredientPrice = amount * prices[index];
+                    cakePrice += ingredientPrice;
+
+                    indexIdx += 4;
+                    amountIdx += 4;
+                }
 
                 // Calculate the number of cakes
-                int numberCakes = (int) (cash / (amount * prices[index])); 
+                int numberCakes = (int) (cash / cakePrice);
 
-                
-                // cakes.add(thirdInput);
+                if (numberCakes > max) {
+                    max = numberCakes;
+                }
             }
-
+            
+            output = output.concat("\n" + String.valueOf(max));
 
         }
+
+        System.out.println(output);
 
         sc.close();
     }
