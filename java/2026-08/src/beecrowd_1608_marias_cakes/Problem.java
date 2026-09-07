@@ -7,13 +7,13 @@ public class Problem {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // Input T indicating the number of test cases.
         int testCases = sc.nextInt();
         sc.nextLine();
 
         String output = "";
         
         for (int i = 0; i < testCases; i++){
+
             // Line with D, I and B (cash, ingredientes and cake types);
             String firstInput = sc.nextLine();
             int[] firstInputInt = Arrays.stream(firstInput.split(" ")).mapToInt(Integer::parseInt).toArray();
@@ -22,42 +22,43 @@ public class Problem {
             int cash = firstInputInt[0];
             
             // Integer I indicating the number of existent ingredients.
-            int ingredientes = firstInputInt[1];
+            int ingredients = firstInputInt[1];
             
             // Integer B indicating the quantity of cake types.
             int cakeTypes = firstInputInt[2];
 
             // Line with I integers indicating the price of each ingredient.
             String pricesInput = sc.nextLine();
-            
-            int[] prices = Arrays.stream(pricesInput.split(" ")).mapToInt(Integer::parseInt).toArray();
+            int[] prices = Arrays.stream(pricesInput.split(" ")).mapToInt(Integer::parseInt).toArray();            
 
             int max = 0;
             
             for (int j = 0; j < cakeTypes; j++) {
+
                 // Get how many different ingredients, ingredient index, and ingredient amount.
-                String cakeComposition = sc.nextLine();
+                String cakeCompositionInput = sc.nextLine();
+                int[] cakeComposition = Arrays.stream(cakeCompositionInput.split(" ")).mapToInt(Integer::parseInt).toArray();
                 
-                int different = Integer.valueOf(cakeComposition.charAt(0));
+                int different = cakeComposition[0];
                 
-                int indexIdx = 2;
-                int amountIdx = 4;
+                int ingredientIdx = 1;
+                int amountIdx = 2;
                 
                 double cakePrice = 0;
                 double ingredientPrice;
                 
-                for (int k = 0; k < ingredientes; k++) {
-                    // Calculate the price of each ingredient.
-                    int index = Integer.valueOf(cakeComposition.charAt(indexIdx));
-                    int amount = Integer.valueOf(cakeComposition.charAt(amountIdx));
-                    
-                    System.out.println(different + index + amount);
+                for (int k = 0; k < different; k++) {
 
+                    // Calculate the price of each ingredient.
+                    int index = cakeComposition[ingredientIdx];
+                    int amount = cakeComposition[amountIdx];
+    
                     ingredientPrice = amount * prices[index];
                     cakePrice += ingredientPrice;
 
-                    indexIdx += 4;
-                    amountIdx += 4;
+                    // Change to the next pair of ingredient/amount.
+                    ingredientIdx += 2;
+                    amountIdx += 2;
                 }
 
                 // Calculate the number of cakes
@@ -68,7 +69,10 @@ public class Problem {
                 }
             }
             
-            output = output.concat("\n" + String.valueOf(max));
+            if ("".equals(output))
+                output = output.concat(String.valueOf(max));
+            else
+                output = output.concat("\n" + String.valueOf(max));
 
         }
 
