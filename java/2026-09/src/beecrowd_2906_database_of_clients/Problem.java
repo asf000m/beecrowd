@@ -6,35 +6,41 @@ import java.util.Scanner;
 public class Problem {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        int emails = sc.nextInt(); sc.nextLine();
-
-        ArrayList<String> cleanEmails = new ArrayList<>();
         
-        int diffEmails = 0;
+        ArrayList<String> cleanEmails = new ArrayList<>();
+        String email;
+        int numberEmails;
+        int atIdx;
+        int plusIdx;
+        String localpart;
+        String cleanLocalpart;
+        String provider;
+        String cleanEmail;
+        
+        numberEmails = sc.nextInt(); sc.nextLine();
+        
+        for (int i = 0; i < numberEmails; i++) {
 
-        for (int i = 0; i < emails; i++) {
-
-            String email = sc.nextLine();
+            email = sc.nextLine();
             
-            int atIdx = email.indexOf("@");
+            atIdx = email.indexOf("@");
             
-            String localpart = email.substring(0, atIdx);
-            String cleanLocalpart = localpart.replaceAll("\\.", "");
+            localpart = email.substring(0, atIdx);
+            cleanLocalpart = localpart.replaceAll("\\.", "");
             
-            String provider = email.substring(atIdx + 1);
+            plusIdx = cleanLocalpart.indexOf("+");
+            if (plusIdx != -1)
+                cleanLocalpart = cleanLocalpart.substring(0, plusIdx);
             
-            String cleanEmail =cleanLocalpart + "@" + provider;
+            provider = email.substring(atIdx + 1);
+            cleanEmail = cleanLocalpart + "@" + provider;
             
-            if (!cleanEmails.contains(cleanEmail)) {
-                diffEmails++;
+            if (!cleanEmails.contains(cleanEmail))
                 cleanEmails.add(cleanEmail);
-            }
-
         }
 
-        System.out.println(cleanEmails);
-        System.out.println(diffEmails);
+        // System.out.println(cleanEmails);
+        System.out.println(cleanEmails.size());
 
         sc.close();
     }
